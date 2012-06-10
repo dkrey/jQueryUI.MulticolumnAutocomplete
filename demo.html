@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<style type='text/css'>
+		<!-- Setup styles for the columns and column header. -->
+		.ui-autocomplete-loading { background: white url('http://jqueryui.com/demos/autocomplete/images/ui-anim_basic_16x16.gif') right center no-repeat; }    
+		.mcacCol1 { float:left; width:150px; }
+		.mcacCol2 { float:left; width:120px; }
+		.mcacCol3 { float:left; width:120px; }
+		.mcacNoResult { float:left; width:350px; }
+		.mcacli {height:24px;}
+		.mcacAnchor { font-size:0.8em; height:20px; overflow:hidden;}
+		.mcacHeader { font-size:0.8em; width:100%; padding:2px 0; float:left; height:20px; }
+		</style>
+	</head>
+	<body>
+		<div style="margin:10px 10px;padding:8px;width:400px;" class="ui-widget ui-widget-content ui-corner-all">
+			<div style="margin:0 0 14px 0; font-size:.7em;">An example of a 3 column autocomplete control.</div>
+			<div style="margin:0 0 4px 4px;">Find a city</div>
+			
+			<!-- This is the input control that gets turned into the jquery ui widget -->
+			<input id="search" type="text" style="padding:2px;font-size:.8em;width:300px;"/>
+			
+			<div style="font-size:0.7em;color:#999;">Makes use of the web service at <a href="http://geonames.org">geonames.org</a></div>			
+			<div style="margin:20px 0 0 0;">
+				<span id="results" style="color:#68a;"></span>
+			</div>    
+			<img src="powered.png" alt="Powered by Deacon Software"/>
+		</div>
+	</body>
+
+	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/jquery-ui.min.js"></script>
+	<script type='text/javascript' src='jquery.mcAutoComplete.js'></script>
+	<script type='text/javascript'>
+	$(document).ready(function() {
+		// This function handles the rendering of the multicolumn menu items, which are just <li>. It gets called once per item.
+		function customRenderItem(ul, item) {
+			var t = '',
+				result = '';
+			// If the result has a property called "name" then we know there is at least one record returned.
+			if (item.name) {
+				t = '<span class="mcacCol1">' + item.name 
+					+ '</span><span class="mcacCol2">' + item.adminName1 + '</span>'
+					+ '</span><span class="mcacCol3">' + item.countryName + '</span>';
+				result = $('<li class="mcacli"></li>')
+					.data('item.autocomplete', item)
+					.append('<a class="mcacAnchor">' + t + '</a>')
+					.appendTo(ul);
+			}
+			// Otherwise the search results returned 0 records and we can show the "no results" message in the dropdown.
+			else {
+				result = $('<li class="mcacli"></li>')
+					.data('item.autocomplete', item)
+					.append('<span class="mcacNoResult ">' + item.label + '</span>')
+					.appendTo(ul);
+			}
+			return result;
+		}
+
+		// Sets up the multicolumn autocomplete widget.
+		$("#search").mcautocomplete({
+			// These next two options are what this plugin adds to the autocomplete widget.
+			renderItem: customRenderItem,
+			menuHeader: '<span class="ui-widget-header mcacHeader"><span style="float:left;padding:0 4px;"><span class="mcacCol1 ">City</span>'
+				+ '<span class="mcacCol2 ">State</span><span class="mcacCol3 ">Country</span></span></span>',
+			
+			// Event handler for when a list item is selected.
+			select: function(event, ui) {
+				this.value = (ui.item ? ui.item.name : '');
+				$('#results').text(ui.item ? 'Selected: ' + ui.item.name + ', ' + ui.item.adminName1 + ', ' + ui.item.countryName : 'Nothing selected, input was ' + this.value);
+				return false;
+			},
+			
+			// The rest of the options are for configuring the ajax webservice call.
+			minLength: 1,
+			source: function(request, response) {
+				$.ajax({
+					url: 'http://ws.geonames.org/searchJSON',
+					dataType: 'jsonp',
+					data: {
+						featureClass: 'P',
+						style: 'full',
+						maxRows: 12,
+						name_startsWith: request.term
+					},
+					// The success event handler will display "No match found" if no items are returned.
+					success: function(data) {
+						var result;
+						if (!data || data.length === 0 || !data.geonames || data.geonames.length === 0) {
+							result = [{label: 'No match found.'}];
+						}
+						else {
+							result = data.geonames;
+						}
+						response(result);
+					}
+				});
+			}
+		});		
+	});
+	</script>	
+</html>
