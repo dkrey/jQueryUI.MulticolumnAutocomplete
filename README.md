@@ -19,4 +19,5 @@ Links
 [jQuery UI autocomplete Demos and Documentation can be found here](http://jqueryui.com/demos/autocomplete/)
 
 [View a simple working example of this plugin at JS Fiddle](http://jsfiddle.net/alforno/d3t7V/)
+
 [View an example using a json webservice for data source at JS Fiddle](http://jsfiddle.net/alforno/g4stL/)
