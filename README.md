@@ -1,40 +1,54 @@
-jQuery UI Multicolumn Autocomplete
-==================================
+jQuery UI Multicolumn Autocomplete 2.0
+======================================
 
 Description
 -----------
 A simple extension for the jQuery UI autocomplete control that adds support for multiple columns in the drop-down list.
-This plugin adds two additional options to the existing autocomplete control, **menuHeader** and **renderItem**. These two options make it possible to display any number of columns in your autocomplete control.
+This plugin adds two additional options to the existing autocomplete control, **showHeader** and **columns**. These two options make it possible to display any number of columns in your autocomplete control.
 
 
 How to use
 ----------
-There is a demo.html file in the repository the shows how a 3 column autocomplete would be implemented.
+There are two demos included in the repository, demo1.html and demo2.html. demo1.html is a simple example and demo2.html is a more complext example using a json webservice as the datasource for the list.
+
+
 As mentioned in the description above, there are only two options added to the autocomplete control.
-- **menuHeader**: This is a string that contains the html for the header. Leave it empty if you don't want a header control.
-- **renderItem**: A hook into the event handler for rendering the control's list items. The function returns a string containing html for an individual &lt;li> elelment.
+- **showHeader**: A boolean that specifies whether or not to show a column header in the drop-down list.
+- **columns**: An object array that defines the columns. See below for details on this option.
 
-Example of creating a Multicolumn Autocomplete:
+How to configure columns
+------------------------
+At the very least, your columns array must specify the **name**, which is the text shown in the header of the column, and the **width**, which is the width of the column.
 
-	var header = '<span class="ui-widget-header mcacHeader"><span style="float:left;padding:0 4px;"><span class="mcacCol1 ">Color</span><span class="mcacCol2 ">Hex</span></span></span>',
-		colors = [['Red', '#f00'], ['Green', '#0f0'], ['Blue', '#00f']];
+So, if your widget's data source is an array of arrays then your code would look something like this.
 
-	function customRenderItem(ul, item) {
-		var t = '<span class="mcacCol1">' + item[0] + '</span><span class="mcacCol2">' + item[1] + '</span>',
-			result = $('<li class="mcacli"></li>')
-			.data('item.autocomplete', item)
-			.append('<a class="mcacAnchor">' + t + '</a>')
-			.appendTo(ul);
-
-		return result;
-	}
-		
-	$("#search").mcAutoComplete({
-		renderItem: customRenderItem,
-		menuHeader: header,
-		source: colors
+	$("#search").mcautocomplete({
+		showHeader: true,
+		columns: [{ name: 'Make', width: '100px' }, { name: 'Model', width: '80px' }],
+		source: [['Mustang', 'Ford'], ['Camero', 'Chevy'], ['Charger', 'Dodge']],
+		select: function(event, ui) {
+			// Sets the input to the 'Make' column when item is selected.
+			this.value = (ui.item ? ui.item[0]: '');
+			return false;
+		}
 	});
 
+Another way to set up the widget would be to use an object array as the source. When that is the case then we must provide one additional property in the columns array. The **valueField** property tells the widget the name of the property to map to the column. 
+
+Here is an example of using mcautocomplete with an object array as the data source.
+
+	$("#search").mcautocomplete({
+		showHeader: true,
+		columns: [{ name: 'Make', width: '100px', valueField: 'make' },
+			{ name: 'Model', width: '80px', valueField: 'model' }],
+		source: [{ make: 'Mustang', model: 'Ford' }, { make: 'Camero', model: 'Chevy' }],
+		select: function(event, ui) {
+			// Sets the input to the 'Make' column when item is selected.
+			this.value = (ui.item ? ui.item[0]: '');
+			return false;
+		}
+	});
+	
 Links
 -----
 [jQuery UI autocomplete Demos and Documentation can be found here](http://jqueryui.com/demos/autocomplete/)
