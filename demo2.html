@@ -5,13 +5,6 @@
 		<style type='text/css'>
 		<!-- Setup styles for the columns and column header. -->
 		.ui-autocomplete-loading { background: white url('http://jqueryui.com/demos/autocomplete/images/ui-anim_basic_16x16.gif') right center no-repeat; }    
-		.mcacCol1 { float:left; width:150px; }
-		.mcacCol2 { float:left; width:120px; }
-		.mcacCol3 { float:left; width:120px; }
-		.mcacNoResult { float:left; width:350px; }
-		.mcacli {height:24px;}
-		.mcacAnchor { font-size:0.8em; height:20px; overflow:hidden;}
-		.mcacHeader { font-size:0.8em; width:100%; padding:2px 0; float:left; height:20px; }
 		</style>
 	</head>
 	<body>
@@ -30,42 +23,20 @@
 		</div>
 	</body>
 
-	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/cupertino/jquery-ui.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/jquery-ui.min.js"></script>
 	<script type='text/javascript' src='jquery.mcAutoComplete.js'></script>
 	<script type='text/javascript'>
 	$(document).ready(function() {
-		// This function handles the rendering of the multicolumn menu items, which are just <li>. It gets called once per item.
-		function customRenderItem(ul, item) {
-			var t = '',
-				result = '';
-			// If the result has a property called "name" then we know there is at least one record returned.
-			if (item.name) {
-				t = '<span class="mcacCol1">' + item.name 
-					+ '</span><span class="mcacCol2">' + item.adminName1 + '</span>'
-					+ '</span><span class="mcacCol3">' + item.countryName + '</span>';
-				result = $('<li class="mcacli"></li>')
-					.data('item.autocomplete', item)
-					.append('<a class="mcacAnchor">' + t + '</a>')
-					.appendTo(ul);
-			}
-			// Otherwise the search results returned 0 records and we can show the "no results" message in the dropdown.
-			else {
-				result = $('<li class="mcacli"></li>')
-					.data('item.autocomplete', item)
-					.append('<span class="mcacNoResult ">' + item.label + '</span>')
-					.appendTo(ul);
-			}
-			return result;
-		}
 
 		// Sets up the multicolumn autocomplete widget.
 		$("#search").mcautocomplete({
 			// These next two options are what this plugin adds to the autocomplete widget.
-			renderItem: customRenderItem,
-			menuHeader: '<span class="ui-widget-header mcacHeader"><span style="float:left;padding:0 4px;"><span class="mcacCol1 ">City</span>'
-				+ '<span class="mcacCol2 ">State</span><span class="mcacCol3 ">Country</span></span></span>',
+			showHeader: true,
+			columns: [{name: 'City', width: '150px', valueField: 'name'},
+				{name: 'State', width:'120px',  valueField: 'adminName1'},
+				{name: 'Country', width:'120px',  valueField: 'countryName'}],
 			
 			// Event handler for when a list item is selected.
 			select: function(event, ui) {
