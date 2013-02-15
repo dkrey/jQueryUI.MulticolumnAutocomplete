@@ -34,7 +34,7 @@ $.widget('custom.mcautocomplete', $.ui.autocomplete, {
 		});
 	
 		result = $('<li></li>')
-			.data('item.autocomplete', item)
+			.data('ui-autocomplete-item', item)
 			.append('<a class="mcacAnchor">' + t + '<div style="clear: both;"></div></a>')
 			.appendTo(ul);
 		return result;
