@@ -10,6 +10,10 @@
  *   http://www.gnu.org/licenses/gpl.html
 */
 $.widget('custom.mcautocomplete', $.ui.autocomplete, {
+    _create: function() {
+      this._super();
+      this.widget().menu( "option", "items", "> :not(.ui-widget-header)" );
+    },
     _renderMenu: function(ul, items) {
         var self = this, thead;
     
