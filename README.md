@@ -1,4 +1,4 @@
-jQuery UI Multicolumn Autocomplete 2.0
+jQuery UI Multicolumn Autocomplete 2.1
 ======================================
 
 Description

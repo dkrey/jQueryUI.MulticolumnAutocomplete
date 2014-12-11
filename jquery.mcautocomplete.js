@@ -1,5 +1,5 @@
 /*
- * jQuery UI Multicolumn Autocomplete Widget Plugin 2.0
+ * jQuery UI Multicolumn Autocomplete Widget Plugin 2.1
  * Copyright (c) 2012-2014 Mark Harmon
  *
  * Depends:
