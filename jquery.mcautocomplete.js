@@ -1,6 +1,6 @@
 /*
  * jQuery UI Multicolumn Autocomplete Widget Plugin 2.0
- * Copyright (c) 2012 Mark Harmon
+ * Copyright (c) 2012-2014 Mark Harmon
  *
  * Depends:
  *   - jQuery UI Autocomplete widget
