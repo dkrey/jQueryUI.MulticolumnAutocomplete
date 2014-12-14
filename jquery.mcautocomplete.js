@@ -15,8 +15,6 @@ $.widget('custom.mcautocomplete', $.ui.autocomplete, {
       this.widget().menu( "option", "items", "> :not(.ui-widget-header)" );
     },
     _renderMenu: function(ul, items) {
-        var self = this, thead;
-    
         if (this.options.showHeader) {
             table=$('<div class="ui-widget-header" style="width:100%"></div>');
             $.each(this.options.columns, function(index, item) {
@@ -25,22 +23,24 @@ $.widget('custom.mcautocomplete', $.ui.autocomplete, {
 			table.append('<div style="clear: both;"></div>');
             ul.append(table);
         }
-        $.each(items, function(index, item) {
-            self._renderItem(ul, item);
-        });
+        this._super(ul, items);
     },
     _renderItem: function(ul, item) {
-		var t = '',
-			result = '';
-		
-		$.each(this.options.columns, function(index, column) {
-			t += '<span style="padding:0 4px;float:left;width:' + column.width + ';">' + item[column.valueField ? column.valueField : index] + '</span>'
-		});
-	
-		result = $('<li></li>')
-			.data('ui-autocomplete-item', item)
-			.append('<a class="mcacAnchor">' + t + '<div style="clear: both;"></div></a>')
-			.appendTo(ul);
-		return result;
+        if (this.options.columns) {
+    		var t = '',
+    			result = '';
+
+    		$.each(this.options.columns, function(index, column) {
+    			t += '<span style="padding:0 4px;float:left;width:' + column.width + ';">' + item[column.valueField ? column.valueField : index] + '</span>'
+    		});
+
+    		result = $('<li></li>')
+    			.data('ui-autocomplete-item', item)
+    			.append('<a class="mcacAnchor">' + t + '<div style="clear: both;"></div></a>')
+    			.appendTo(ul);
+    		return result;
+        }
+        else
+            return this._super(ul, item);
     }
 });
