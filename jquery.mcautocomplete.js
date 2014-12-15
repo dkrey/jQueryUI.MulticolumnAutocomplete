@@ -31,7 +31,7 @@ $.widget('custom.mcautocomplete', $.ui.autocomplete, {
     			result = '';
 
     		$.each(this.options.columns, function(index, column) {
-                var val = item[column.valueField ? column.valueField : index];
+    			var val = item[column.valueField ? column.valueField : index];
     			t += '<span style="padding:0 4px;float:left;width:' + column.width + ';">' + (val ? val : '&nbsp;') + '</span>'
     		});
 
