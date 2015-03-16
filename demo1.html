@@ -9,8 +9,6 @@
 			
 			<!-- This is the input control that gets turned into the jquery ui widget -->
 			<input id="search" type="text" style="padding:2px;font-size:.8em;width:200px;"/>
-
-			<img src="powered.png" alt="Powered by Deacon Software"/>
 		</div>
 	</body>
 
@@ -31,7 +29,7 @@
 			return result;
 		}
 
-		var columns = [{name: 'Color', width: '100px'}, {name: 'Hex', width:'70px'}],
+		var columns = [{name: 'Color', minWidth: '100px'}, {name: 'Hex', minWidth:'70px'}],
 			colors = [['Red', '#f00'], ['Green', '#0f0'], ['Blue', '#00f']];
 
 		$("#search").mcautocomplete({

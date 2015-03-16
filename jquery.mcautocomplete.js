@@ -21,7 +21,7 @@ $.widget('custom.mcautocomplete', $.ui.autocomplete, {
             table=$('<div class="ui-widget-header" style="width:100%"></div>');
             // Column headers
             $.each(this.options.columns, function(index, item) {
-                table.append('<span style="padding:0 4px;float:left;min-width:' + item.minWidth + ';">' + item.name + '</span>');
+                table.append('<span style="float:left;min-width:' + item.minWidth + ';">' + item.name + '</span>');
             });
 			table.append('<div style="clear: both;"></div>');
             ul.append(table);
@@ -36,7 +36,7 @@ $.widget('custom.mcautocomplete', $.ui.autocomplete, {
 			result = '';
 		
 		$.each(this.options.columns, function(index, column) {
-			t += '<span style="padding:0 4px;float:left;min-width:' + column.minWidth + ';">' + item[column.valueField ? column.valueField : index] + '</span>'
+			t += '<span style="float:left;min-width:' + column.minWidth + ';">' + item[column.valueField ? column.valueField : index] + '</span>'
 		});
 	
 		result = $('<li></li>')
