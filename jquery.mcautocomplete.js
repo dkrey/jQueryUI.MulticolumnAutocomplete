@@ -22,7 +22,7 @@ $.widget('custom.mcautocomplete', $.ui.autocomplete, {
             $.each(this.options.columns, function(index, item) {
                 table.append('<span style="float:left;min-width:' + item.minWidth + ';">' + item.name + '</span>');
             });
-			table.append('<div style="clear: both;"></div>');
+		table.append('<div style="clear: both;"></div>');
             ul.append(table);
         }
         // List items
@@ -40,7 +40,7 @@ $.widget('custom.mcautocomplete', $.ui.autocomplete, {
 	
 		result = $('<li></li>')
 			.data('ui-autocomplete-item', item)
-			.append('<a class="mcacAnchor">' + t + '<div style="clear: both;"></div></a>')
+			.append('<div class="ui-menu-item-wrapper">' + t + '<div style="clear: both;"></div></div>')
 			.appendTo(ul);
 		return result;
     }
